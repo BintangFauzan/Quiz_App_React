@@ -7,46 +7,32 @@
 - Menggunakan React hooks:
   - `useState` untuk menyimpan:
     - `dataQuestions`: array soal dari API
-    - `userAnswer`: jawaban user (objek, key 1-10)
-    - `shuffledQuestions`: array soal beserta jawaban yang sudah diacak
-    - `dataAnswer`: array untuk menyimpan hasil submit jawaban user
-    - `errorMessage`: boolean untuk menampilkan pesan error validasi
+    - `userAnswer`: jawaban user (dalam bentuk objek)
     - `loading`: status loading saat fetch data
   - `useEffect` untuk menjalankan fetch data saat komponen pertama kali dirender.
 
-## 2. Fetch Data dari API & Acak Jawaban
+## 2. Fetch Data dari API
 - Pada `useEffect`, fungsi async `fetchData` dipanggil sekali saat komponen mount.
 - Mengambil data soal dari Open Trivia DB API.
 - Jika berhasil, data soal disimpan ke `dataQuestions`.
-- Untuk setiap soal, jawaban benar dan salah digabung lalu diacak, hasilnya disimpan di property `shuffledAnswers` pada setiap soal.
-- Array soal beserta jawaban acak disimpan ke state `shuffledQuestions`.
 - Jika gagal, error dicetak ke console.
 - Status `loading` diatur sebelum dan sesudah fetch.
 
 ## 3. Render Halaman Quiz
-- Jika loading, tampilkan pesan loading.
-- Jika errorMessage true, tampilkan pesan error (misal: "harap isi semua data").
 - Menampilkan background dan card quiz.
 - Menampilkan timer statis (belum berjalan otomatis).
-- Melakukan map pada `shuffledQuestions` untuk menampilkan setiap soal:
-  - Pilihan jawaban diambil dari `shuffledAnswers` (sudah diacak satu kali).
+- Melakukan map pada `dataQuestions` untuk menampilkan setiap soal:
+  - Jawaban benar dan salah digabung, lalu diacak urutannya.
   - Setiap opsi jawaban ditampilkan sebagai radio button.
-  - Penamaan radio button unik per soal (`name={'answer'+(index+1)}`) agar user hanya bisa memilih satu jawaban per soal.
-  - Jawaban user tersimpan di state `userAnswer` melalui handler `handleAnswerChange`.
+  - Penamaan radio button sebaiknya unik per soal.
 - Menampilkan progress bar dan persentase statis.
 
-## 4. Submit & Validasi Jawaban
-- Terdapat tombol submit ("Simpan") di bawah form.
-- Saat submit, fungsi `handleSubmitAnswer` akan:
-  - Melakukan validasi: jika ada jawaban yang belum diisi, set `errorMessage` ke true dan otomatis hilang setelah 1 detik.
-  - Jika validasi lolos, jawaban user disimpan ke state `dataAnswer`.
-
-## 5. Catatan Pengembangan
-- Timer dan progress bar masih statis, bisa dikembangkan agar dinamis.
-- Skor dan feedback jawaban belum ditampilkan.
-- Pesan error validasi sudah muncul dan otomatis hilang setelah 1 detik.
+## 4. Catatan Perbaikan
+- Penamaan radio button: sebaiknya gunakan `name={`answer-${index}`}` agar user hanya bisa memilih satu jawaban per soal.
+- Jawaban user belum tersimpan karena belum ada handler `onChange` dan checked pada radio button.
+- Timer dan progress bar masih statis.
 
 ---
 
 **Kesimpulan:**
-Kode sudah dapat mengambil soal, mengacak jawaban satu kali, menyimpan jawaban user, dan melakukan validasi submit dengan feedback error yang jelas. Struktur sudah baik untuk dikembangkan lebih lanjut (skor, feedback, timer dinamis, dsb).
+Kode sudah bisa mengambil dan menampilkan soal dari API, namun masih bisa dikembangkan agar lebih interaktif (misal: menyimpan jawaban user, timer dinamis, progress bar dinamis, dsb).

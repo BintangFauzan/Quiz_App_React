@@ -17,6 +17,7 @@ export default function QuizPage() {
     })
     const [shuffledQuestions, setShuffledQuestions] = useState([])
     const [dataAnswer, setDataAnswer] = useState([])
+    const [score, setScore] = useState(0)
     const [errorMessage, setErrorMessage] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -67,8 +68,13 @@ export default function QuizPage() {
         },1000)
     }
         setDataAnswer((prevData) => [...prevData, newAnswerData])
+        const totalScore = shuffledQuestions.reduce((sum, question, index) => {
+          return sum + (userAnswer[index+1] === question.correct_answer ? 10 : 0)
+        },0)
+        setScore(totalScore)
     }
     console.log('Jawaban',dataAnswer)
+    console.log("Skor", score)
 
     if(loading === true){
         return <div><h2>Loading</h2></div>
